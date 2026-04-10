@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Contacts page within a league
 The system SHALL display a contacts page at `/leagues/[slug]/contacts` showing: contact name(s), phone number(s), email address(es), social media links (VK, Telegram, Instagram, YouTube, and any other platforms present in `socials[]`), and physical address if available. Social links SHALL be rendered from the `socials[]` array already present in the `/clients/{id}` payload — no additional API call is required.

@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: News list fetches from API
 The news page SHALL call `fetchNews(clientId)` using the numeric client id (resolved from `site_id`). Each article SHALL show the title, `created_at` date, `client_name` as author, and cover image via `apiImg()`.

@@ -35,7 +35,11 @@ export interface ApiMatch {
   home_team_image: string;
   guest_team_image: string;
   short_stage_name: string | null;
+  stadium_id: number | null;
   stadium_name: string | null;
+  judje_id: number | null;
+  judje_name: string | null;
+  judje_family: string | null;
   league_name: string;
   resheduled: string | null;
 }
@@ -68,6 +72,59 @@ export interface ApiSubLeague {
   active?: number;
 }
 
+export interface ApiSocial {
+  social_id: number;
+  social_name: string; // "vk" | "youtube" | "telegram" | "instagram" | etc.
+  social_value: string; // URL or handle — may start with "//"
+}
+
+export interface ApiPlayer {
+  id: number;
+  name: string;
+  family: string;
+  father_name: string | null;
+  image: string | null;
+  age: number | null;
+  height: number | null;
+  weight: number | null;
+  work_foot: string | null;
+  birthday: string | null;
+  nationality: string | null;
+  position: string | null;
+  short_position: string | null;
+  teams: { team_id: number; name: string; short_name: string; image: string }[];
+}
+
+export interface ApiTeam {
+  id: number;
+  name: string;
+  short_name: string | null;
+  image: string | null;
+  basic_information: string | null;
+  bestPlayers: {
+    name: string;
+    event_id: number;
+    players: { player_id: number; name: string; family: string; image: string; position: string; amount: number }[];
+  }[];
+  leagues: {
+    league_id: number;
+    season_id: number;
+    season: string;
+    league_name: string;
+    league_image: string;
+    place: number | null;
+  }[];
+}
+
+export interface ApiStadium {
+  id: number;
+  name: string;
+  short_name: string | null;
+  image: string | null;
+  address: string | null;
+  point: { x: number; y: number } | null;
+}
+
 export interface ApiLeagueDetail {
   id: number;
   name: string;
@@ -80,7 +137,7 @@ export interface ApiLeagueDetail {
   league_table_active: { league_id: number; type: number } | null;
   matches: ApiMatch[];
   partners: ApiPartner[];
-  socials: unknown[];
+  socials: ApiSocial[];
   seasons: { id: number; name: string }[];
 }
 
@@ -182,6 +239,59 @@ export async function resolveLeagueId(
   return found ? { id: found.id, league: found } : null;
 }
 
+/** Fetch all news across all leagues (global feed), capped at 50 */
+export async function fetchGlobalNews(): Promise<ApiNewsArticle[]> {
+  try {
+    const res = await fetch(`${API_BASE}/league_news`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) return [];
+    const data: ApiNewsArticle[] = await res.json();
+    return data.slice(0, 50);
+  } catch {
+    return [];
+  }
+}
+
+/** Fetch a player by id */
+export async function fetchPlayer(id: number): Promise<ApiPlayer | null> {
+  try {
+    const res = await fetch(`${API_BASE}/players/${id}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+/** Fetch a team by id */
+export async function fetchTeam(id: number): Promise<ApiTeam | null> {
+  try {
+    const res = await fetch(`${API_BASE}/teams/${id}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+/** Fetch a stadium by id */
+export async function fetchStadium(id: number): Promise<ApiStadium | null> {
+  try {
+    const res = await fetch(`${API_BASE}/stadiums/${id}`, {
+      next: { revalidate: REVALIDATE },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
 /** Strip internal link markup from news text: {///href///}label{//href//}key{///href///} */
 export function stripNewsMarkup(text: string): string {
   return text
@@ -189,5 +299,22 @@ export function stripNewsMarkup(text: string): string {
       /\{\/\/\/href\/\/\/\}.*?\{\/\/href\/\/\}.*?\{\/\/\/href\/\/\/\}/g,
       "",
     )
+    .trim();
+}
+
+/**
+ * Parse internal link markup into <a> tags.
+ * Pattern: {///href///}LABEL{//href//}Player-ingame-ID{///href///}
+ * Renders as <a href="/leagues/SLUG/players/ID">LABEL</a>
+ * Unknown tokens are stripped.
+ */
+export function renderNewsMarkup(text: string, slug: string): string {
+  return text
+    .replace(
+      /\{\/\/\/href\/\/\/\}(.*?)\{\/\/href\/\/\}Player-ingame-(\d+)\{\/\/\/href\/\/\/\}/g,
+      (_, label: string, id: string) =>
+        `<a href="/leagues/${slug}/players/${id}" class="news-player-link">${label}</a>`,
+    )
+    .replace(/\{\/\/\/href\/\/\/\}.*?\{\/\/href\/\/\}.*?\{\/\/\/href\/\/\/\}/g, "")
     .trim();
 }

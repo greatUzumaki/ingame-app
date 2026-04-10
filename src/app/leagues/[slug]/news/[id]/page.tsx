@@ -1,4 +1,4 @@
-import { resolveLeagueId, fetchNews, apiImg, stripNewsMarkup } from "@/lib/api";
+import { resolveLeagueId, fetchNews, apiImg, renderNewsMarkup } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,7 +31,7 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
 
   const image = apiImg(article.image);
-  const body = stripNewsMarkup(article.text);
+  const body = renderNewsMarkup(article.text, slug);
 
   return (
     <div className="max-w-3xl">
@@ -69,9 +69,10 @@ export default async function ArticlePage({ params }: Props) {
       </h1>
 
       {/* Body */}
-      <div className="text-[var(--color-text-muted)] leading-relaxed whitespace-pre-line">
-        {body}
-      </div>
+      <div
+        className="text-[var(--color-text-muted)] leading-relaxed whitespace-pre-line [&_.news-player-link]:text-[var(--color-brand-accent)] [&_.news-player-link]:underline [&_.news-player-link]:underline-offset-2 [&_.news-player-link]:hover:opacity-80"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { resolveLeagueId, fetchLeague, apiImg } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -95,14 +96,14 @@ export default async function TournamentsPage({ params }: Props) {
                     key={m.id}
                     className="rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border-light)] p-4 flex items-center gap-4 flex-wrap"
                   >
-                    <div className="flex items-center gap-3 flex-1 min-w-0 justify-end">
+                    <Link href={`/leagues/${slug}/teams/${m.home_team_id}`} className="flex items-center gap-3 flex-1 min-w-0 justify-end hover:opacity-75 transition-opacity">
                       {m.home_team_image && (
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
                           <Image src={apiImg(m.home_team_image)} alt={m.home_team_name} fill className="object-cover" sizes="32px" />
                         </div>
                       )}
                       <span className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{m.home_team_name}</span>
-                    </div>
+                    </Link>
 
                     <div className="text-center shrink-0">
                       <div className="text-xs font-bold text-[var(--color-brand-accent)]">VS</div>
@@ -110,14 +111,14 @@ export default async function TournamentsPage({ params }: Props) {
                       {m.time && <div className="text-xs text-[var(--color-text-faint)]">{m.time}</div>}
                     </div>
 
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <Link href={`/leagues/${slug}/teams/${m.guest_team_id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-75 transition-opacity">
                       {m.guest_team_image && (
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
                           <Image src={apiImg(m.guest_team_image)} alt={m.guest_team_name} fill className="object-cover" sizes="32px" />
                         </div>
                       )}
                       <span className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{m.guest_team_name}</span>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -136,14 +137,14 @@ export default async function TournamentsPage({ params }: Props) {
                     key={m.id}
                     className="rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border-light)] p-4 flex items-center gap-4 flex-wrap"
                   >
-                    <div className="flex items-center gap-3 flex-1 min-w-0 justify-end">
+                    <Link href={`/leagues/${slug}/teams/${m.home_team_id}`} className="flex items-center gap-3 flex-1 min-w-0 justify-end hover:opacity-75 transition-opacity">
                       {m.home_team_image && (
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
                           <Image src={apiImg(m.home_team_image)} alt={m.home_team_name} fill className="object-cover" sizes="32px" />
                         </div>
                       )}
                       <span className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{m.home_team_name}</span>
-                    </div>
+                    </Link>
 
                     <div className="text-center shrink-0 min-w-[56px]">
                       <div className="text-lg font-black text-[var(--color-text-primary)]">
@@ -152,14 +153,14 @@ export default async function TournamentsPage({ params }: Props) {
                       <div className="text-xs text-[var(--color-text-faint)]">{formatDate(m.date)}</div>
                     </div>
 
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <Link href={`/leagues/${slug}/teams/${m.guest_team_id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:opacity-75 transition-opacity">
                       {m.guest_team_image && (
                         <div className="relative w-8 h-8 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
                           <Image src={apiImg(m.guest_team_image)} alt={m.guest_team_name} fill className="object-cover" sizes="32px" />
                         </div>
                       )}
                       <span className="font-semibold text-sm text-[var(--color-text-primary)] truncate">{m.guest_team_name}</span>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>

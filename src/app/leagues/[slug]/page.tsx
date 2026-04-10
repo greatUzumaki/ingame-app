@@ -25,51 +25,80 @@ function groupBy<T>(arr: T[], key: (item: T) => string): Map<string, T[]> {
 
 // ── Match row ──────────────────────────────────────────────────────────────────
 
-function MatchRow({ m, played }: { m: ApiMatch; played: boolean }) {
+function MatchRow({ m, played, slug }: { m: ApiMatch; played: boolean; slug: string }) {
+  const refereeName =
+    m.judje_id && m.judje_name && m.judje_family
+      ? `${m.judje_name} ${m.judje_family}`.trim()
+      : null;
+
   return (
-    <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 py-3 border-b border-[var(--color-border-light)] last:border-0">
-      {/* Home */}
-      <div className="flex items-center gap-2 justify-end">
-        <span className="text-sm font-medium text-[var(--color-text-primary)] text-right leading-tight line-clamp-2">
-          {m.home_team_name}
-        </span>
-        {m.home_team_image && (
-          <div className="relative w-7 h-7 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
-            <Image src={apiImg(m.home_team_image)} alt="" fill className="object-cover" sizes="28px" />
-          </div>
-        )}
-      </div>
-
-      {/* Score / VS */}
-      <div className="text-center min-w-[64px]">
-        {played ? (
-          <span className="text-base font-black text-[var(--color-text-primary)]">
-            {m.home_team_scores ?? "–"}&nbsp;:&nbsp;{m.guest_team_scores ?? "–"}
+    <div className="px-4 py-3 border-b border-[var(--color-border-light)] last:border-0">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+        {/* Home */}
+        <Link href={`/leagues/${slug}/teams/${m.home_team_id}`} className="flex items-center gap-2 justify-end hover:opacity-75 transition-opacity">
+          <span className="text-sm font-medium text-[var(--color-text-primary)] text-right leading-tight line-clamp-2">
+            {m.home_team_name}
           </span>
-        ) : (
-          <span className="text-xs font-bold text-[var(--color-brand-accent)]">VS</span>
-        )}
-        <div className="text-[10px] text-[var(--color-text-faint)] mt-0.5">{formatDate(m.date)}</div>
+          {m.home_team_image && (
+            <div className="relative w-7 h-7 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
+              <Image src={apiImg(m.home_team_image)} alt="" fill className="object-cover" sizes="28px" />
+            </div>
+          )}
+        </Link>
+
+        {/* Score / VS */}
+        <div className="text-center min-w-[64px]">
+          {played ? (
+            <span className="text-base font-black text-[var(--color-text-primary)]">
+              {m.home_team_scores ?? "–"}&nbsp;:&nbsp;{m.guest_team_scores ?? "–"}
+            </span>
+          ) : (
+            <span className="text-xs font-bold text-[var(--color-brand-accent)]">VS</span>
+          )}
+          <div className="text-[10px] text-[var(--color-text-faint)] mt-0.5">{formatDate(m.date)}</div>
+        </div>
+
+        {/* Guest */}
+        <Link href={`/leagues/${slug}/teams/${m.guest_team_id}`} className="flex items-center gap-2 hover:opacity-75 transition-opacity">
+          {m.guest_team_image && (
+            <div className="relative w-7 h-7 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
+              <Image src={apiImg(m.guest_team_image)} alt="" fill className="object-cover" sizes="28px" />
+            </div>
+          )}
+          <span className="text-sm font-medium text-[var(--color-text-primary)] leading-tight line-clamp-2">
+            {m.guest_team_name}
+          </span>
+        </Link>
       </div>
 
-      {/* Guest */}
-      <div className="flex items-center gap-2">
-        {m.guest_team_image && (
-          <div className="relative w-7 h-7 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
-            <Image src={apiImg(m.guest_team_image)} alt="" fill className="object-cover" sizes="28px" />
-          </div>
-        )}
-        <span className="text-sm font-medium text-[var(--color-text-primary)] leading-tight line-clamp-2">
-          {m.guest_team_name}
-        </span>
-      </div>
+      {/* Stadium / Referee */}
+      {(m.stadium_name || refereeName) && (
+        <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1.5 text-[10px] text-[var(--color-text-faint)]">
+          {m.stadium_name && (
+            <span className="flex items-center gap-1">
+              <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current shrink-0">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              {m.stadium_name}
+            </span>
+          )}
+          {refereeName && (
+            <span className="flex items-center gap-1">
+              <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current shrink-0">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              {refereeName}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
 // ── Standings table ────────────────────────────────────────────────────────────
 
-function StandingsSection({ rows }: { rows: ApiTableRow[] }) {
+function StandingsSection({ rows, slug }: { rows: ApiTableRow[]; slug: string }) {
   const sorted = [...rows].sort((a, b) => b.points - a.points || b.goals_diff - a.goals_diff);
 
   return (
@@ -91,11 +120,11 @@ function StandingsSection({ rows }: { rows: ApiTableRow[] }) {
           {sorted.map((row, i) => (
             <tr
               key={row.team_id}
-              className={`border-b border-[var(--color-border-light)] last:border-0 ${i === 0 ? "bg-[var(--color-brand-accent)]/5" : ""}`}
+              className={`border-b border-[var(--color-border-light)] last:border-0 hover:bg-[var(--color-surface-elevated)] transition-colors ${i === 0 ? "bg-[var(--color-brand-accent)]/5" : ""}`}
             >
               <td className="py-2.5 px-3 text-[var(--color-text-faint)] font-semibold">{i + 1}</td>
               <td className="py-2.5 px-3">
-                <div className="flex items-center gap-2">
+                <Link href={`/leagues/${slug}/teams/${row.team_id}`} className="flex items-center gap-2 hover:text-[var(--color-brand-accent)] transition-colors">
                   {row.image && (
                     <div className="relative w-5 h-5 rounded-full overflow-hidden bg-[var(--color-surface-elevated)] shrink-0">
                       <Image src={apiImg(row.image)} alt="" fill className="object-cover" sizes="20px" />
@@ -104,7 +133,7 @@ function StandingsSection({ rows }: { rows: ApiTableRow[] }) {
                   <span className="text-[var(--color-text-primary)] font-medium truncate max-w-[160px] sm:max-w-none">
                     {row.short_name || row.name}
                   </span>
-                </div>
+                </Link>
               </td>
               <td className="py-2.5 px-2 text-center text-[var(--color-text-muted)]">{row.matches_amount}</td>
               <td className="py-2.5 px-2 text-center text-emerald-400">{row.wins_amount}</td>
@@ -206,7 +235,7 @@ export default async function LeagueHomePage({ params }: Props) {
                     <span className="text-xs font-semibold text-[var(--color-text-faint)] uppercase tracking-wider">{stage}</span>
                   </div>
                 )}
-                {matches.map((m) => <MatchRow key={m.id} m={m} played={false} />)}
+                {matches.map((m) => <MatchRow key={m.id} m={m} played={false} slug={slug} />)}
               </div>
             ))}
           </div>
@@ -225,7 +254,7 @@ export default async function LeagueHomePage({ params }: Props) {
                     <span className="text-xs font-semibold text-[var(--color-text-faint)] uppercase tracking-wider">{stage}</span>
                   </div>
                 )}
-                {matches.map((m) => <MatchRow key={m.id} m={m} played />)}
+                {matches.map((m) => <MatchRow key={m.id} m={m} played slug={slug} />)}
               </div>
             ))}
           </div>
@@ -244,7 +273,7 @@ export default async function LeagueHomePage({ params }: Props) {
                     <span className="text-xs font-semibold text-[var(--color-text-faint)] uppercase tracking-wider">{group}</span>
                   </div>
                 )}
-                <StandingsSection rows={rows} />
+                <StandingsSection rows={rows} slug={slug} />
               </div>
             ))}
           </div>
