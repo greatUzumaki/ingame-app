@@ -1,4 +1,5 @@
-export const API_BASE = "https://37.46.130.153:3001";
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE ?? "https://37.46.130.153:3001";
 
 /** Prepend API base URL to a relative image path from the API */
 export function apiImg(path: string | null | undefined): string {
@@ -118,10 +119,14 @@ export async function fetchLeagues(): Promise<ApiLeague[]> {
     const res = await fetch(`${API_BASE}/clients/`, {
       next: { revalidate: REVALIDATE },
     });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.error("Error fetching leagues:", res.statusText);
+      return [];
+    }
     const data: ApiLeague[] = await res.json();
     return data.filter((l) => l.site_id != null);
-  } catch {
+  } catch (error) {
+    console.error("Error fetching leagues:", error);
     return [];
   }
 }
