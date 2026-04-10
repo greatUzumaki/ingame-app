@@ -42,7 +42,7 @@ export default function RootLayout({
         <AuthProvider>
           <FavouritesProvider>
             <Navbar />
-            <main className="flex-1 flex flex-col pb-16 md:pb-0">
+            <main className="flex-1 flex flex-col pb-mobile md:pb-0">
               {children}
             </main>
             <Footer />

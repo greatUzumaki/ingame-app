@@ -70,11 +70,8 @@ export default function BottomNav() {
   const profileActive = pathname === "/profile" || pathname.startsWith("/auth");
 
   return (
-    <nav
-      className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[var(--color-brand-dark)]/95 backdrop-blur-md border-t border-[var(--color-border-light)]"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-    >
-      <div className="flex items-stretch">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[var(--color-brand-dark)]/95 backdrop-blur-md border-t border-[var(--color-border-light)]">
+      <div className="flex">
         {allTabs.map((tab) => {
           const active = tab.label === "Профиль"
             ? profileActive
@@ -102,6 +99,8 @@ export default function BottomNav() {
           );
         })}
       </div>
+      {/* Safe-area spacer — sits below icons, not behind them */}
+      <div style={{ height: "env(safe-area-inset-bottom)" }} />
     </nav>
   );
 }

@@ -35,6 +35,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Bottom nav clearance — accounts for tab bar + iOS safe area */
+.pb-mobile {
+  padding-bottom: max(4rem, calc(3.5rem + env(safe-area-inset-bottom)));
+}
+
 body {
   background-color: var(--color-brand-dark);
   color: var(--color-text-primary);
