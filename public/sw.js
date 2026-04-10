@@ -23,30 +23,39 @@ self.addEventListener('fetch', (event) => {
   // ── 1. Next.js hashed static assets (JS/CSS) — cache-first forever ──────────
   if (pathname.startsWith('/_next/static/')) {
     event.respondWith(
-      caches.match(event.request).then(
-        (cached) => cached ?? fetch(event.request).then((res) => {
-          if (res.ok) caches.open(CACHE_STATIC).then((c) => c.put(event.request, res.clone()))
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached
+        return fetch(event.request).then((res) => {
+          if (res.ok) {
+            const clone = res.clone() // clone synchronously before any async op
+            caches.open(CACHE_STATIC).then((c) => c.put(event.request, clone))
+          }
           return res
         })
-      )
+      })
     )
     return
   }
 
-  // ── 2. Optimized images via Next.js image endpoint /_next/image ──────────────
-  //    Also cache PWA icons and hero image from public/
+  // ── 2. Images via /_next/image and public assets ──────────────────────────────
   if (pathname.startsWith('/_next/image') || pathname.match(/\.(png|jpg|jpeg|webp|avif|svg|ico)$/)) {
     event.respondWith(
       caches.match(event.request).then((cached) => {
-        // Stale-while-revalidate: return cache immediately, refresh in background
+        // Stale-while-revalidate: serve cache instantly, refresh in background
         if (cached) {
           fetch(event.request).then((res) => {
-            if (res.ok) caches.open(CACHE_IMAGES).then((c) => c.put(event.request, res.clone()))
+            if (res.ok) {
+              const clone = res.clone() // clone synchronously
+              caches.open(CACHE_IMAGES).then((c) => c.put(event.request, clone))
+            }
           }).catch(() => {})
           return cached
         }
         return fetch(event.request).then((res) => {
-          if (res.ok) caches.open(CACHE_IMAGES).then((c) => c.put(event.request, res.clone()))
+          if (res.ok) {
+            const clone = res.clone() // clone synchronously
+            caches.open(CACHE_IMAGES).then((c) => c.put(event.request, clone))
+          }
           return res
         })
       })
