@@ -1,4 +1,4 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "https://37.46.130.153:3001";
+export const API_BASE = "https://37.46.130.153:3001";
 
 /** Prepend API base URL to a relative image path from the API */
 export function apiImg(path: string | null | undefined): string {
@@ -166,7 +166,9 @@ export async function fetchPartners(clientId: number): Promise<ApiPartner[]> {
 }
 
 /** Resolve a slug (site_id) to the numeric league id. Returns null if not found. */
-export async function resolveLeagueId(slug: string): Promise<{ id: number; league: ApiLeague } | null> {
+export async function resolveLeagueId(
+  slug: string,
+): Promise<{ id: number; league: ApiLeague } | null> {
   const leagues = await fetchLeagues();
   const found = leagues.find((l) => l.site_id === slug);
   return found ? { id: found.id, league: found } : null;
@@ -174,5 +176,10 @@ export async function resolveLeagueId(slug: string): Promise<{ id: number; leagu
 
 /** Strip internal link markup from news text: {///href///}label{//href//}key{///href///} */
 export function stripNewsMarkup(text: string): string {
-  return text.replace(/\{\/\/\/href\/\/\/\}.*?\{\/\/href\/\/\}.*?\{\/\/\/href\/\/\/\}/g, "").trim();
+  return text
+    .replace(
+      /\{\/\/\/href\/\/\/\}.*?\{\/\/href\/\/\}.*?\{\/\/\/href\/\/\/\}/g,
+      "",
+    )
+    .trim();
 }
