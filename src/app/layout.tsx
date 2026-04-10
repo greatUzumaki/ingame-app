@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Jost } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
@@ -13,6 +13,12 @@ const jost = Jost({
   variable: "--font-jost",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover", // required for env(safe-area-inset-bottom) to work on iOS
+};
 
 export const metadata: Metadata = {
   title: {
