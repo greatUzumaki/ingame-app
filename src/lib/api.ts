@@ -115,18 +115,21 @@ const REVALIDATE = 60; // seconds
 
 /** Fetch the full list of leagues (championships), filtered to those with a site_id */
 export async function fetchLeagues(): Promise<ApiLeague[]> {
+  const url = `${API_BASE}/clients/`;
+  console.log("[api] fetchLeagues →", url, "| TLS_REJECT:", process.env.NODE_TLS_REJECT_UNAUTHORIZED);
   try {
-    const res = await fetch(`${API_BASE}/clients/`, {
+    const res = await fetch(url, {
       next: { revalidate: REVALIDATE },
     });
     if (!res.ok) {
-      console.error("Error fetching leagues:", res.statusText);
+      console.error("[api] fetchLeagues HTTP error:", res.status, res.statusText);
       return [];
     }
     const data: ApiLeague[] = await res.json();
+    console.log("[api] fetchLeagues OK — count:", data.length);
     return data.filter((l) => l.site_id != null);
   } catch (error) {
-    console.error("Error fetching leagues:", error);
+    console.error("[api] fetchLeagues FAILED:", error instanceof Error ? error.message : error);
     return [];
   }
 }
