@@ -72,9 +72,9 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Burger button — mobile */}
+          {/* Burger button — hidden on mobile (bottom nav handles it), visible between sm–md if needed */}
           <button
-            className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] p-2 rounded-lg text-[var(--color-text-muted)] hover:bg-white/5 transition-colors"
+            className="hidden relative w-10 h-10 flex flex-col items-center justify-center gap-[5px] p-2 rounded-lg text-[var(--color-text-muted)] hover:bg-white/5 transition-colors"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
             aria-expanded={open}

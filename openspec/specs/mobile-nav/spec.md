@@ -22,3 +22,12 @@ On viewports below `sm` (640px) the Navbar SHALL hide desktop navigation links a
 #### Scenario: Drawer closes on backdrop tap
 - **WHEN** the drawer is open and user taps the semi-transparent backdrop
 - **THEN** the drawer closes
+
+---
+
+### Requirement: Burger menu hidden on mobile when bottom nav is present
+On viewports below `md` (768px) the burger icon button in the Navbar SHALL be hidden. Mobile navigation is handled entirely by the bottom navigation bar.
+
+#### Scenario: Burger hidden on mobile when bottom nav present
+- **WHEN** user views any page on a viewport narrower than 768px
+- **THEN** the burger icon is not displayed in the Navbar (bottom nav handles mobile navigation)

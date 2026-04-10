@@ -4,6 +4,7 @@ import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BottomNav from "@/components/BottomNav";
 import { AuthProvider } from "@/context/AuthContext";
 import { FavouritesProvider } from "@/context/FavouritesContext";
 
@@ -37,14 +38,15 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-screen flex flex-col">
         <AuthProvider>
           <FavouritesProvider>
             <Navbar />
-            <main className="flex-1 flex flex-col">
+            <main className="flex-1 flex flex-col pb-16 md:pb-0">
               {children}
             </main>
             <Footer />
+            <BottomNav />
           </FavouritesProvider>
         </AuthProvider>
         <ServiceWorkerRegister />
