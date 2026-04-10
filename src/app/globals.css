@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --color-brand-dark: #060b14;
+  --color-brand-blue: #0f4ac4;
+  --color-brand-accent: #e53935;
+  --color-brand-accent-hover: #c62828;
+  --color-surface: #0b1220;
+  --color-surface-elevated: #111d30;
+  --color-surface-card: #0e1828;
+  --color-text-primary: #eef3ff;
+  --color-text-muted: #6888a8;
+  --color-text-faint: #3d5570;
+  --color-border: #1a2f4a;
+  --color-border-light: #132440;
+}
+
+@theme inline {
+  --color-brand-dark: var(--color-brand-dark);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-accent: var(--color-brand-accent);
+  --color-brand-accent-hover: var(--color-brand-accent-hover);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-card: var(--color-surface-card);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-faint: var(--color-text-faint);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --font-sans: var(--font-jost);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-brand-dark);
+  color: var(--color-text-primary);
+  font-family: var(--font-jost), 'Jost', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Card entrance animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-enter {
+  animation: fadeSlideUp 0.35s ease both;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-brand-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-faint);
+}
+
+/* Utility: hide scrollbar while keeping scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
