@@ -22,7 +22,7 @@ export default async function HomePage() {
           sizes="100vw"
         />
         {/* Dark overlay so text is readable */}
-        <div className="absolute inset-0 bg-[#030810]/75" />
+        <div className="absolute inset-0 bg-[#030810]/90" />
         {/* Accent glow */}
         <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -37,10 +37,10 @@ export default async function HomePage() {
             Найди свою{" "}
             <span className="text-[var(--color-brand-accent)]">лигу</span>
             <br />
-            <span className="text-[var(--color-text-muted)]">и начни играть</span>
+            <span className="text-white/80">и начни играть</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-[var(--color-text-muted)] max-w-xl mx-auto mb-7 leading-relaxed">
+          <p className="text-base sm:text-lg text-white/70 max-w-xl mx-auto mb-7 leading-relaxed">
             Турниры, статистика, новости и результаты матчей — всё в одном месте.
           </p>
 
@@ -53,7 +53,7 @@ export default async function HomePage() {
             </a>
             <Link
               href="/connect"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--color-border)] text-[var(--color-text-muted)] font-semibold text-base hover:border-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/30 text-white/80 font-semibold text-base hover:border-white hover:text-white transition-all"
             >
               Подключить свою лигу
             </Link>
@@ -67,7 +67,7 @@ export default async function HomePage() {
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl font-black text-[var(--color-brand-accent)]">{stat.value}</div>
-                <div className="text-xs text-[var(--color-text-muted)] mt-0.5">{stat.label}</div>
+                <div className="text-xs text-white/60 mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -120,7 +120,7 @@ export default async function HomePage() {
               >
                 Подключить свою лигу
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
-                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                 </svg>
               </Link>
             </div>
