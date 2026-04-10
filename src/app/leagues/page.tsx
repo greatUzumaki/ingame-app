@@ -4,7 +4,7 @@ import FavouritesStrip from "@/components/FavouritesStrip";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Все лиги | InGame Sports",
+  title: "Все лиги | BARDIUZHENKO",
 };
 
 export default async function LeaguesPage() {

@@ -39,7 +39,7 @@ export default function LoginPage() {
               </svg>
             </div>
             <h1 className="text-2xl font-black text-[var(--color-text-primary)]">Вход в аккаунт</h1>
-            <p className="text-[var(--color-text-muted)] text-sm mt-1">InGame Sports</p>
+            <p className="text-[var(--color-text-muted)] text-sm mt-1">BARDIUZHENKO</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

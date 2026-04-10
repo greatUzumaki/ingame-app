@@ -113,7 +113,7 @@ export default async function HomePage() {
                 Управляете лигой?
               </h2>
               <p className="text-[var(--color-text-muted)] text-lg max-w-xl mx-auto mb-8">
-                Подключите вашу лигу к платформе InGame Sports и получите удобные инструменты для управления турнирами, командами и статистикой.
+                Подключите вашу лигу к платформе BARDIUZHENKO и получите удобные инструменты для управления турнирами, командами и статистикой.
               </p>
               <Link
                 href="/connect"

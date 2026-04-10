@@ -16,14 +16,14 @@ const jost = Jost({
 
 export const metadata: Metadata = {
   title: {
-    default: "InGame Sports — Любительский футбол",
-    template: "%s | InGame Sports",
+    default: "BARDIUZHENKO — Любительский футбол",
+    template: "%s | BARDIUZHENKO",
   },
   description: "Платформа для любительских футбольных лиг. Найди свою лигу, следи за турнирами и статистикой.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "InGame Sports",
+    title: "BARDIUZHENKO",
   },
   formatDetection: { telephone: false },
 };

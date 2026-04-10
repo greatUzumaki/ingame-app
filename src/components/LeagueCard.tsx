@@ -44,7 +44,7 @@ export default function LeagueCard({ slug, name, coverImage, logoImage, city, sh
                 src={logoImage}
                 alt={`${name} logo`}
                 fill
-                className="object-cover"
+                className="object-contain p-1"
                 sizes="48px"
               />
             ) : (

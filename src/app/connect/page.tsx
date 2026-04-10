@@ -22,7 +22,7 @@ export default function ConnectPage() {
           Подключить свою лигу
         </h1>
         <p className="text-[var(--color-text-muted)] mt-3 leading-relaxed">
-          Расскажите нам о вашей лиге — мы свяжемся с вами и поможем настроить всё необходимое для выхода на платформу InGame Sports.
+          Расскажите нам о вашей лиге — мы свяжемся с вами и поможем настроить всё необходимое для выхода на платформу BARDIUZHENKO.
         </p>
       </div>
 

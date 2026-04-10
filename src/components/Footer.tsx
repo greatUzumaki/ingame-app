@@ -15,7 +15,7 @@ export default function Footer() {
               </svg>
             </div>
             <span className="font-bold text-[var(--color-text-primary)]">
-              InGame <span className="text-[var(--color-brand-accent)]">Sports</span>
+              BARDI<span className="text-[var(--color-brand-accent)]">UZHENKO</span>
             </span>
           </div>
 
@@ -26,7 +26,7 @@ export default function Footer() {
           </nav>
 
           <span className="text-xs text-[var(--color-text-faint)]">
-            © {year} InGame Sports
+            © {year} BARDIUZHENKO
           </span>
         </div>
       </div>
