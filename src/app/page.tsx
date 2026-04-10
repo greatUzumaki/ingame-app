@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { fetchLeagues } from "@/lib/api";
 import LeaguesGrid from "@/components/LeaguesGrid";
 import FavouritesStrip from "@/components/FavouritesStrip";
@@ -11,50 +12,19 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden flex items-center py-10 sm:py-14">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#030810] via-[var(--color-brand-dark)] to-[var(--color-brand-blue)]" />
-        {/* Grid pattern */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `linear-gradient(var(--color-border) 1px, transparent 1px), linear-gradient(90deg, var(--color-border) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
+        {/* Stock photo background */}
+        <Image
+          src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1920&q=75"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+          sizes="100vw"
         />
-        {/* Glow */}
+        {/* Dark overlay so text is readable */}
+        <div className="absolute inset-0 bg-[#030810]/75" />
+        {/* Accent glow */}
         <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[var(--color-brand-accent)]/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Football SVG — decorative, right side */}
-        <svg
-          viewBox="0 0 200 200"
-          className="absolute right-[-20px] sm:right-[4%] top-1/2 -translate-y-1/2 w-52 h-52 sm:w-72 sm:h-72 opacity-[0.07] pointer-events-none select-none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <circle cx="100" cy="100" r="95" fill="none" stroke="white" strokeWidth="4"/>
-          {/* Pentagon patches */}
-          <polygon points="100,10 120,35 111,62 89,62 80,35" fill="white"/>
-          <polygon points="175,55 188,83 170,105 148,97 144,68" fill="white"/>
-          <polygon points="165,148 148,168 122,162 118,138 140,122" fill="white"/>
-          <polygon points="60,162 35,155 30,128 52,113 75,124" fill="white"/>
-          <polygon points="25,100 12,72 32,52 56,62 57,90" fill="white"/>
-          {/* Connecting lines */}
-          <line x1="100" y1="10" x2="80" y2="35" stroke="white" strokeWidth="2"/>
-          <line x1="100" y1="10" x2="120" y2="35" stroke="white" strokeWidth="2"/>
-          <line x1="175" y1="55" x2="144" y2="68" stroke="white" strokeWidth="2"/>
-          <line x1="175" y1="55" x2="148" y2="97" stroke="white" strokeWidth="2"/>
-          <line x1="165" y1="148" x2="140" y2="122" stroke="white" strokeWidth="2"/>
-          <line x1="165" y1="148" x2="122" y2="162" stroke="white" strokeWidth="2"/>
-          <line x1="60" y1="162" x2="75" y2="124" stroke="white" strokeWidth="2"/>
-          <line x1="60" y1="162" x2="30" y2="128" stroke="white" strokeWidth="2"/>
-          <line x1="25" y1="100" x2="57" y2="90" stroke="white" strokeWidth="2"/>
-          <line x1="25" y1="100" x2="32" y2="52" stroke="white" strokeWidth="2"/>
-          <line x1="111" y1="62" x2="144" y2="68" stroke="white" strokeWidth="2"/>
-          <line x1="89" y1="62" x2="57" y2="90" stroke="white" strokeWidth="2"/>
-          <line x1="148" y1="97" x2="140" y2="122" stroke="white" strokeWidth="2"/>
-          <line x1="118" y1="138" x2="75" y2="124" stroke="white" strokeWidth="2"/>
-          <line x1="52" y1="113" x2="30" y2="128" stroke="white" strokeWidth="2"/>
-        </svg>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
           {/* Badge */}
